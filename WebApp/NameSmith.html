@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>NameSmith</title>
+  </head>
+  <body>
+    <h1>NameSmith</h1>
+    <form>
+      <label for="race">Race:</label>
+      <input type="text" id="race" name="race"><br><br>
+      <label for="gender">Gender:</label>
+      <input type="text" id="gender" name="gender"><br><br>
+      <label for="class">Class:</label>
+      <input type="text" id="class" name="class"><br><br>
+      <button type="button" onclick="generateName()">Generate Name</button>
+    </form>
+    <br>
+    <div id="name"></div>
+    <script>
+      function generateName() {
+        var race = document.getElementById("race").value;
+        var gender = document.getElementById("gender").value;
+        var class = document.getElementById("class").value;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("name").innerHTML = this.responseText;
+          }
+        };
+        xhr.open("POST", "http://localhost:5000/generate_name");
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({"race": race, "gender": gender, "class": class}));
+      }
+    </script>
+  </body>
+</html>
